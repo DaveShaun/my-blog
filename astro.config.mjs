@@ -2,13 +2,12 @@
 
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
-import cloudflare from '@astrojs/cloudflare';
 import { defineConfig, fontProviders } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://northernhiwisen.dpdns.org',
-	adapter: cloudflare(),
+	base: '/my-blog',
 	integrations: [mdx(), sitemap()],
 	fonts: [
 		{
