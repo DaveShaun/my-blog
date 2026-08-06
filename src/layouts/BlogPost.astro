@@ -8,16 +8,6 @@ import Header from '../components/Header.astro';
 type Props = CollectionEntry<'blog'>['data'];
 
 const { title, description, pubDate, updatedDate } = Astro.props;
-
-const asciiHeader = `
- ╔══════════════════════════════════════════════════════════╗
- ║  ███╗   ███╗ █████╗ ████████╗██████╗ ██╗██╗  ██╗      ║
- ║  ████╗ ████║██╔══██╗╚══██╔══╝██╔══██╗██║╚██╗██╔╝      ║
- ║  ██╔████╔██║███████║   ██║   ██████╔╝██║ ╚███╔╝       ║
- ║  ██║╚██╔╝██║██╔══██║   ██║   ██╔══██╗██║ ██╔██╗       ║
- ║  ██║ ╚═╝ ██║██║  ██║   ██║   ██║  ██║██║██╔╝ ██╗      ║
- ║  ╚═╝     ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝      ║
- ╚══════════════════════════════════════════════════════════╝`;
 ---
 
 <html lang="en">
@@ -31,6 +21,50 @@ const asciiHeader = `
 				padding: 0 1.5em;
 			}
 
+			/* Navigation */
+			.top-bar {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				padding: 1.5em 0;
+				border-bottom: 1px solid rgba(0, 255, 65, 0.2);
+				margin-bottom: 2em;
+			}
+
+			.site-name {
+				font-size: 1.1em;
+				font-weight: bold;
+				color: var(--green);
+				text-shadow: 0 0 8px var(--green-glow);
+			}
+
+			.site-name::before {
+				content: '> ';
+				color: var(--green-dim);
+			}
+
+			.top-nav {
+				display: flex;
+				gap: 0.5em;
+			}
+
+			.top-nav a {
+				padding: 6px 14px;
+				border: 1px solid rgba(0, 255, 65, 0.2);
+				text-decoration: none;
+				color: var(--green-dim);
+				font-size: 0.9em;
+				transition: all 0.2s;
+			}
+
+			.top-nav a:hover,
+			.top-nav a.active {
+				color: var(--green);
+				border-color: var(--green);
+				background: rgba(0, 255, 65, 0.05);
+				box-shadow: 0 0 10px rgba(0, 255, 65, 0.2);
+			}
+
 			.post-article {
 				padding: 3em 0;
 			}
@@ -40,6 +74,10 @@ const asciiHeader = `
 				margin-bottom: 3em;
 				padding-bottom: 2em;
 				border-bottom: 1px solid rgba(0, 255, 65, 0.1);
+			}
+
+			.post-header .ascii-art {
+				margin-bottom: 1.5em;
 			}
 
 			.post-title {
@@ -170,10 +208,19 @@ const asciiHeader = `
 	<body>
 		<canvas id="matrix-canvas"></canvas>
 
+		<!-- Navigation -->
+		<nav class="top-bar">
+			<span class="site-name">Northernhiwisen</span>
+			<div class="top-nav">
+				<a href="/about">About</a>
+				<a href="/blog" class="active">Notes</a>
+				<a href="/blog">Projects</a>
+			</div>
+		</nav>
+
 		<main>
 			<article class="post-article">
 				<div class="post-header">
-					<pre class="ascii-art">{asciiHeader}</pre>
 					<h1 class="post-title">{title}</h1>
 					<div class="post-meta">
 						<span class="prompt">date:</span> <FormattedDate date={pubDate} />
