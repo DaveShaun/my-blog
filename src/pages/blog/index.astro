@@ -1,5 +1,4 @@
 ---
-import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
@@ -10,6 +9,15 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
+
+const asciiHeader = `
+ ╔═══════════════════════════════════════╗
+ ║   __  __ _      __  __                ║
+ ║  |  \\/  (_)___ |  \\/  |___  ___       ║
+ ║  | |\\/| | / __|| |\\/| / __|/ _ \\      ║
+ ║  | |  | | \\__ \\| |  | \\__ \\ (_) |     ║
+ ║  |_|  |_|_|___/|_|  |_|___/\\___/      ║
+ ╚═══════════════════════════════════════╝`;
 ---
 
 <!doctype html>
@@ -18,94 +26,105 @@ const posts = (await getCollection('blog')).sort(
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 		<style>
 			main {
-				width: 960px;
-			}
-			ul {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 2rem;
-				list-style-type: none;
-				margin: 0;
-				padding: 0;
-			}
-			ul li {
-				width: calc(50% - 1rem);
-			}
-			ul li * {
-				text-decoration: none;
-				transition: 0.2s ease;
-			}
-			ul li:first-child {
 				width: 100%;
-				margin-bottom: 1rem;
+				max-width: 800px;
+				margin: auto;
+				padding: 1em;
+			}
+
+			.page-header {
 				text-align: center;
+				margin-bottom: 2em;
 			}
-			ul li:first-child img {
-				width: 100%;
+
+			.posts-list {
+				list-style: none;
+				padding: 0;
+				margin: 0;
 			}
-			ul li:first-child .title {
-				font-size: 2.369rem;
+
+			.post-item {
+				border: 1px solid rgba(0, 255, 65, 0.15);
+				border-radius: 4px;
+				margin-bottom: 1em;
+				padding: 1.2em 1.5em;
+				transition: all 0.2s;
+				background: rgba(0, 255, 65, 0.02);
 			}
-			ul li img {
-				margin-bottom: 0.5rem;
-				border-radius: 12px;
+
+			.post-item:hover {
+				border-color: rgba(0, 255, 65, 0.4);
+				background: rgba(0, 255, 65, 0.05);
+				box-shadow: 0 0 15px rgba(0, 255, 65, 0.1);
 			}
-			ul li a {
+
+			.post-item a {
+				text-decoration: none;
 				display: block;
 			}
-			.title {
-				margin: 0;
-				color: rgb(var(--black));
-				line-height: 1;
+
+			.post-item .title {
+				font-size: 1.2em;
+				margin: 0 0 0.3em 0;
+				color: var(--green);
+				text-shadow: 0 0 6px var(--green-glow);
 			}
-			.date {
-				margin: 0;
-				color: rgb(var(--gray));
+
+			.post-item .excerpt {
+				color: var(--green-dim);
+				font-size: 0.9em;
+				margin: 0.5em 0;
 			}
-			ul li a:hover h4,
-			ul li a:hover .date {
-				color: rgb(var(--accent));
+
+			.post-item .meta {
+				font-size: 0.8em;
+				color: rgba(0, 255, 65, 0.5);
 			}
-			ul a:hover img {
-				box-shadow: var(--box-shadow);
+
+			.post-item .meta .tag {
+				display: inline-block;
+				padding: 1px 6px;
+				border: 1px solid rgba(0, 255, 65, 0.2);
+				border-radius: 3px;
+				margin-right: 8px;
 			}
-			@media (max-width: 720px) {
-				ul {
-					gap: 0.5em;
-				}
-				ul li {
-					width: 100%;
-					text-align: center;
-				}
-				ul li:first-child {
-					margin-bottom: 0;
-				}
-				ul li:first-child .title {
-					font-size: 1.563em;
-				}
+
+			.empty-state {
+				text-align: center;
+				padding: 3em;
+				color: var(--green-dim);
 			}
 		</style>
 	</head>
 	<body>
 		<Header />
 		<main>
+			<div class="page-header">
+				<pre class="ascii-art">{asciiHeader}</pre>
+			</div>
+
 			<section>
-				<ul>
-					{
+				<span class="prompt">ls -la ./posts/</span>
+				<ul class="posts-list">
+					{posts.length === 0 ? (
+						<li class="empty-state">
+							<span class="prompt">cat: ./posts/*</span>
+							<p>No posts found. Directory is empty.</p>
+						</li>
+					) : (
 						posts.map((post) => (
-							<li>
+							<li class="post-item">
 								<a href={`/blog/${post.id}/`}>
-									{post.data.heroImage && (
-										<Image width={720} height={360} src={post.data.heroImage} alt="" />
-									)}
-									<h4 class="title">{post.data.title}</h4>
-									<p class="date">
-										<FormattedDate date={post.data.pubDate} />
-									</p>
+									<h3 class="title">{post.data.title}</h3>
+									<p class="excerpt">{post.data.description}</p>
+									<div class="meta">
+										<span class="tag"><FormattedDate date={post.data.pubDate} /></span>
+										<span>~/blog/{post.id}</span>
+									</div>
 								</a>
 							</li>
 						))
-					}
+					)}
 				</ul>
 			</section>
 		</main>

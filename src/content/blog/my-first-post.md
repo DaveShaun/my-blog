@@ -2,7 +2,6 @@
 title: '我的建站之旅：从免费域名到 AI 助攻'
 description: '一篇关于如何从零开始，借助 DigitalPlat 免费域名、Cloudflare 托管，以及 AI 编程工具 OpenCode 和 MiMoCode，搭建起这个博客的完整记录。'
 pubDate: 'Aug 06 2025'
-heroImage: '../../assets/blog-placeholder-1.jpg'
 ---
 
 ## 一切的起点
