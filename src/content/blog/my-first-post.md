@@ -31,7 +31,7 @@ heroImage: '../../assets/blog-placeholder-1.jpg'
 
 域名有了，但博客用什么搭？我开始调研各种方案：Hexo、Hugo、Next.js、Astro……选择太多，反而难以抉择。
 
-这时候，我决定让 AI 来帮忙。我先使用了 **OpenCode**（当时还叫 Claude Code），让它帮我对比各种博客框架的优缺点，最终 Astro 脱颖而出 —— 它性能出色、SEO 友好、支持 Markdown 和 MDX，还有丰富的集成生态（RSS、Sitemap 等）。
+这时候，我决定让 AI 来帮忙。我先使用了 **OpenCode**，让它帮我对比各种博客框架的优缺点，最终 Astro 脱颖而出 —— 它性能出色、SEO 友好、支持 Markdown 和 MDX，还有丰富的集成生态（RSS、Sitemap 等）。
 
 后来我又切换到了 **MiMoCode**，在这个 AI 助手的帮助下，我基于 Astro 的官方博客模板快速搭建了项目结构，配置了 TypeScript、部署脚本，以及 GitHub Pages 的自动发布流程。
 

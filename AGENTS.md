@@ -19,7 +19,7 @@ Run dev server in background: `astro dev --background` (manage with `astro dev s
 ## Site config
 
 - **URL**: `https://northernhiwisen.dpdns.org`
-- **Base path**: `/my-blog` — all routes are prefixed; internal links must account for this
+- **Base path**: `/` — served from domain root via custom domain; do NOT set to `/my-blog` (that would only work on `username.github.io/my-blog`)
 - **CNAME**: `public/CNAME` points to the custom domain
 - **Cloudflare adapter** (`@astrojs/cloudflare`) is installed as devDependency — present for potential Cloudflare Pages use, but current deploy goes through `gh-pages`
 

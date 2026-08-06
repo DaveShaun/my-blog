@@ -7,7 +7,7 @@ import { defineConfig, fontProviders } from 'astro/config';
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://northernhiwisen.dpdns.org',
-	base: '/my-blog',
+	base: '/',
 	integrations: [mdx(), sitemap()],
 	fonts: [
 		{
