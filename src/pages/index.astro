@@ -1,285 +1,463 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { SITE_TITLE } from '../consts';
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<BaseHead title={SITE_TITLE} description="Northernhiwisen — Incurably curious about systems, logic, and aesthetics." />
 		<style>
-			/* Reset global styles for Matrix theme */
-			body {
-				margin: 0;
-				padding: 0;
-				background: #000 !important;
-				color: #00ff41 !important;
-				font-family: 'Courier New', Courier, monospace !important;
-				overflow: hidden;
-				min-height: 100vh;
-			}
-
 			main {
-				width: 100% !important;
-				max-width: 100% !important;
-				margin: 0 !important;
-				padding: 0 !important;
-			}
-
-			/* Matrix rain canvas */
-			#matrix-canvas {
-				position: fixed;
-				top: 0;
-				left: 0;
 				width: 100%;
-				height: 100%;
-				z-index: 0;
-				opacity: 0.15;
+				max-width: 900px;
+				margin: auto;
+				padding: 0 1.5em;
 			}
 
-			/* Terminal container */
-			.terminal-wrapper {
-				position: relative;
-				z-index: 1;
+			/* Navigation */
+			.top-bar {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				padding: 1.5em 0;
+				border-bottom: 1px solid rgba(0, 255, 65, 0.2);
+				margin-bottom: 3em;
+			}
+
+			.site-name {
+				font-size: 1.1em;
+				font-weight: bold;
+				color: var(--green);
+				text-shadow: 0 0 8px var(--green-glow);
+			}
+
+			.site-name::before {
+				content: '> ';
+				color: var(--green-dim);
+			}
+
+			.top-nav {
+				display: flex;
+				gap: 0.5em;
+			}
+
+			.top-nav a {
+				padding: 6px 14px;
+				border: 1px solid rgba(0, 255, 65, 0.2);
+				text-decoration: none;
+				color: var(--green-dim);
+				font-size: 0.9em;
+				transition: all 0.2s;
+			}
+
+			.top-nav a:hover {
+				color: var(--green);
+				border-color: var(--green);
+				background: rgba(0, 255, 65, 0.05);
+				box-shadow: 0 0 10px rgba(0, 255, 65, 0.2);
+			}
+
+			/* Hero Section */
+			.hero {
+				text-align: center;
+				padding: 4em 0 3em;
+			}
+
+			.hero-title {
+				font-size: 3em;
+				margin: 0 0 0.5em 0;
+				color: var(--green);
+				text-shadow: 0 0 20px var(--green-glow);
+				letter-spacing: 2px;
+			}
+
+			.hero-subtitle {
+				font-size: 1.1em;
+				color: var(--green-dim);
+				margin-bottom: 2em;
+				line-height: 1.8;
+			}
+
+			.hero-desc {
+				max-width: 600px;
+				margin: 0 auto 2.5em;
+				color: var(--green-dim);
+				line-height: 2;
+				font-size: 0.95em;
+			}
+
+			.hero-desc p {
+				margin-bottom: 0.5em;
+			}
+
+			.hero-actions {
 				display: flex;
 				justify-content: center;
-				align-items: center;
-				min-height: 100vh;
-				padding: 1rem;
+				gap: 1em;
+				flex-wrap: wrap;
 			}
 
-			.terminal {
-				width: 100%;
-				max-width: 700px;
-				background: rgba(0, 0, 0, 0.85);
-				border: 1px solid #00ff41;
-				border-radius: 8px;
-				box-shadow:
-					0 0 20px rgba(0, 255, 65, 0.15),
-					inset 0 0 60px rgba(0, 255, 65, 0.03);
-				backdrop-filter: blur(2px);
-				overflow: hidden;
-			}
-
-			/* Terminal title bar */
-			.terminal-bar {
-				display: flex;
-				align-items: center;
-				gap: 8px;
-				padding: 10px 16px;
-				background: rgba(0, 255, 65, 0.08);
-				border-bottom: 1px solid rgba(0, 255, 65, 0.2);
-			}
-
-			.terminal-bar .dot {
-				width: 12px;
-				height: 12px;
-				border-radius: 50%;
-			}
-
-			.dot-red { background: #ff5f56; }
-			.dot-yellow { background: #ffbd2e; }
-			.dot-green { background: #27c93f; }
-
-			.terminal-title {
-				margin-left: 12px;
-				font-size: 13px;
-				color: rgba(0, 255, 65, 0.5);
-				user-select: none;
-			}
-
-			/* Terminal body */
-			.terminal-body {
-				padding: 24px;
-				font-size: 15px;
-				line-height: 1.8;
-				min-height: 320px;
-			}
-
-			.terminal-body .line {
-				opacity: 0;
-				animation: fadeIn 0.3s ease forwards;
-			}
-
-			@keyframes fadeIn {
-				to { opacity: 1; }
-			}
-
-			.terminal-body .prompt {
-				color: #00ff41;
-				text-shadow: 0 0 8px rgba(0, 255, 65, 0.6);
-			}
-
-			.terminal-body .command {
-				color: #00ff41;
-			}
-
-			.terminal-body .output {
-				color: rgba(0, 255, 65, 0.75);
-				padding-left: 16px;
-			}
-
-			.terminal-body .error {
-				color: #ff5f56;
-			}
-
-			/* Links styled as terminal links */
-			.terminal-body a {
-				color: #00ff41;
-				text-decoration: underline;
-				text-underline-offset: 3px;
-				transition: all 0.2s;
-			}
-
-			.terminal-body a:hover {
-				color: #fff;
-				text-shadow: 0 0 12px rgba(0, 255, 65, 0.8);
-				background: rgba(0, 255, 65, 0.1);
-			}
-
-			/* Navigation grid */
-			.nav-grid {
-				display: grid;
-				grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-				gap: 12px;
-				margin-top: 8px;
-			}
-
-			.nav-grid a {
-				display: block;
-				padding: 8px 14px;
-				border: 1px solid rgba(0, 255, 65, 0.3);
+			.btn {
+				display: inline-block;
+				padding: 10px 24px;
+				border: 1px solid var(--green);
 				text-decoration: none;
-				color: #00ff41;
-				text-align: center;
+				font-size: 0.9em;
 				transition: all 0.2s;
+				cursor: pointer;
 			}
 
-			.nav-grid a:hover {
+			.btn-primary {
+				color: #000;
+				background: var(--green);
+				font-weight: bold;
+			}
+
+			.btn-primary:hover {
+				background: #fff;
+				border-color: #fff;
+				box-shadow: 0 0 20px var(--green-glow);
+			}
+
+			.btn-secondary {
+				color: var(--green);
+				background: transparent;
+			}
+
+			.btn-secondary:hover {
 				background: rgba(0, 255, 65, 0.1);
-				border-color: #00ff41;
 				box-shadow: 0 0 12px rgba(0, 255, 65, 0.3);
 			}
 
-			/* Blinking cursor */
-			.cursor {
+			/* Section Styles */
+			.section {
+				padding: 3em 0;
+				border-top: 1px solid rgba(0, 255, 65, 0.1);
+			}
+
+			.section-header {
+				margin-bottom: 2em;
+			}
+
+			.section-label {
+				font-size: 0.8em;
+				color: var(--green-dim);
+				text-transform: uppercase;
+				letter-spacing: 3px;
+				margin-bottom: 0.5em;
+			}
+
+			.section-title {
+				font-size: 1.6em;
+				color: var(--green);
+				text-shadow: 0 0 8px var(--green-glow);
+				margin: 0;
+			}
+
+			/* Expertise List */
+			.expertise-item {
+				margin-bottom: 2.5em;
+				padding-left: 1.5em;
+				border-left: 2px solid rgba(0, 255, 65, 0.2);
+			}
+
+			.expertise-item:hover {
+				border-left-color: var(--green);
+			}
+
+			.expertise-number {
+				font-size: 0.8em;
+				color: var(--green-dim);
+				margin-bottom: 0.3em;
+			}
+
+			.expertise-title {
+				font-size: 1.2em;
+				color: var(--green);
+				margin: 0 0 0.5em 0;
+			}
+
+			.expertise-desc {
+				color: var(--green-dim);
+				line-height: 1.8;
+				margin: 0;
+			}
+
+			/* Explore Cards */
+			.card-grid {
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				gap: 1.5em;
+			}
+
+			.card {
+				border: 1px solid rgba(0, 255, 65, 0.2);
+				padding: 1.5em;
+				transition: all 0.2s;
+				background: rgba(0, 255, 65, 0.02);
+			}
+
+			.card:hover {
+				border-color: var(--green);
+				box-shadow: 0 0 15px rgba(0, 255, 65, 0.15);
+				transform: translateY(-2px);
+			}
+
+			.card-title {
+				font-size: 1.1em;
+				color: var(--green);
+				margin: 0 0 0.8em 0;
+				padding-bottom: 0.5em;
+				border-bottom: 1px solid rgba(0, 255, 65, 0.15);
+			}
+
+			.card-topics {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+			}
+
+			.card-topics li {
+				color: var(--green-dim);
+				font-size: 0.9em;
+				padding: 0.3em 0;
+			}
+
+			.card-topics li::before {
+				content: '├─ ';
+				color: rgba(0, 255, 65, 0.4);
+			}
+
+			.card-topics li:last-child::before {
+				content: '└─ ';
+			}
+
+			/* Recent List */
+			.recent-list {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+			}
+
+			.recent-item {
+				display: flex;
+				align-items: baseline;
+				padding: 0.8em 0;
+				border-bottom: 1px solid rgba(0, 255, 65, 0.08);
+				gap: 1em;
+			}
+
+			.recent-tag {
 				display: inline-block;
-				width: 10px;
-				height: 18px;
-				background: #00ff41;
-				animation: blink 1s step-end infinite;
-				vertical-align: middle;
-				margin-left: 2px;
+				padding: 2px 8px;
+				border: 1px solid rgba(0, 255, 65, 0.3);
+				border-radius: 3px;
+				font-size: 0.75em;
+				color: var(--green);
+				white-space: nowrap;
+				min-width: 50px;
+				text-align: center;
 			}
 
-			@keyframes blink {
-				0%, 100% { opacity: 1; }
-				50% { opacity: 0; }
+			.recent-title {
+				color: var(--green);
+				flex: 1;
 			}
 
-			/* ASCII art header */
-			.ascii-art {
-				color: #00ff41;
-				text-shadow: 0 0 8px rgba(0, 255, 65, 0.6);
-				font-size: 12px;
-				line-height: 1.2;
-				white-space: pre;
-				margin-bottom: 8px;
+			.recent-title a {
+				color: var(--green);
+				text-decoration: none;
 			}
 
-			/* Scanline effect */
-			.scanline {
-				position: fixed;
-				top: 0;
-				left: 0;
-				width: 100%;
-				height: 100%;
-				pointer-events: none;
-				z-index: 2;
-				background: repeating-linear-gradient(
-					0deg,
-					transparent,
-					transparent 2px,
-					rgba(0, 0, 0, 0.03) 2px,
-					rgba(0, 0, 0, 0.03) 4px
-				);
+			.recent-title a:hover {
+				text-decoration: underline;
+			}
+
+			.recent-date {
+				color: var(--green-dim);
+				font-size: 0.85em;
+				white-space: nowrap;
+			}
+
+			/* Footer */
+			.footer {
+				text-align: center;
+				padding: 3em 0 2em;
+				margin-top: 2em;
+				border-top: 1px solid rgba(0, 255, 65, 0.15);
+			}
+
+			.footer-quote {
+				font-style: italic;
+				color: var(--green-dim);
+				margin-bottom: 1em;
+				font-size: 0.95em;
+			}
+
+			.footer-copy {
+				color: rgba(0, 255, 65, 0.4);
+				font-size: 0.8em;
+			}
+
+			/* Divider */
+			.divider {
+				border: none;
+				border-top: 1px dashed rgba(0, 255, 65, 0.15);
+				margin: 2em 0;
 			}
 
 			/* Responsive */
-			@media (max-width: 600px) {
-				.terminal-body {
-					padding: 16px;
-					font-size: 13px;
+			@media (max-width: 700px) {
+				.top-bar {
+					flex-direction: column;
+					gap: 1em;
 				}
-				.ascii-art {
-					font-size: 9px;
+
+				.hero-title {
+					font-size: 2em;
+				}
+
+				.card-grid {
+					grid-template-columns: 1fr;
+				}
+
+				.recent-item {
+					flex-direction: column;
+					gap: 0.3em;
+				}
+
+				.recent-date {
+					align-self: flex-start;
 				}
 			}
 		</style>
 	</head>
 	<body>
 		<canvas id="matrix-canvas"></canvas>
-		<div class="scanline"></div>
 
 		<main>
-			<div class="terminal-wrapper">
-				<div class="terminal">
-					<div class="terminal-bar">
-						<span class="dot dot-red"></span>
-						<span class="dot dot-yellow"></span>
-						<span class="dot dot-green"></span>
-						<span class="terminal-title">northernhiwisen@matrix ~ </span>
+			<!-- Navigation -->
+			<nav class="top-bar">
+				<span class="site-name">Northernhiwisen</span>
+				<div class="top-nav">
+					<a href="/about">About</a>
+					<a href="/blog">Notes</a>
+					<a href="/blog">Projects</a>
+				</div>
+			</nav>
+
+			<!-- Hero Section -->
+			<section class="hero">
+				<h1 class="hero-title">Northernhiwisen</h1>
+				<p class="hero-subtitle">
+					Incurably curious about systems, logic, and aesthetics.
+				</p>
+				<div class="hero-desc">
+					<p>穿梭于专利数据库与复杂规则之间的信息检索人。</p>
+					<p>左手逻辑：深挖技术哲学、系统工程与底层机制；</p>
+					<p>右手感性：探索音乐编曲、硬核叙事与格律美学。</p>
+					<p>致力于用极度的严谨去拆解复杂，用独立的视角去探索世界。</p>
+				</div>
+				<div class="hero-actions">
+					<a href="#section-expertise" class="btn btn-primary">Explore My Work ↓</a>
+					<a href="mailto:contact@northernhiwisen.dpdns.org" class="btn btn-secondary">Get in Touch</a>
+				</div>
+			</section>
+
+			<hr class="divider" />
+
+			<!-- Section 1: What I Do -->
+			<section class="section" id="section-expertise">
+				<div class="section-header">
+					<div class="section-label">// SECTION 01</div>
+					<h2 class="section-title">What I Do / 专业领域</h2>
+				</div>
+
+				<div class="expertise-item">
+					<div class="expertise-number">01 / Patent & Database Retrieval</div>
+					<h3 class="expertise-title">专利与数据库检索</h3>
+					<p class="expertise-desc">
+						深耕专利系统与文献数据库，擅长复杂检索式构建、现有技术查新与证据链梳理。
+					</p>
+				</div>
+
+				<div class="expertise-item">
+					<div class="expertise-number">02 / Information Architecture & Systems</div>
+					<h3 class="expertise-title">信息架构与系统拆解</h3>
+					<p class="expertise-desc">
+						以极度的严谨性梳理规则、数据与机制，从浩瀚的信息海洋中建立秩序。
+					</p>
+				</div>
+			</section>
+
+			<hr class="divider" />
+
+			<!-- Section 2: What I Explore -->
+			<section class="section">
+				<div class="section-header">
+					<div class="section-label">// SECTION 02</div>
+					<h2 class="section-title">What I Explore / 探索与思考</h2>
+				</div>
+
+				<div class="card-grid">
+					<div class="card">
+						<h3 class="card-title">逻辑与系统</h3>
+						<ul class="card-topics">
+							<li>技术哲学</li>
+							<li>系统工程历史</li>
+						</ul>
 					</div>
-					<div class="terminal-body">
-						<div class="line">
-							<pre class="ascii-art"> _   _ _             _              
-| \ | (_)           | |             
-|  \| |_ _ __   ___ | |_ ___  _ __  
-| . ` | | '_ \ / _ \| __/ _ \| '__| 
-| |\  | | | | | (_) | || (_) | |    
-|_| \_|_|_| |_|\___/ \__\___/|_|    </pre>
-						</div>
-
-						<div class="line" style="animation-delay: 0.2s">
-							<span class="prompt">$</span>
-							<span class="command"> whoami</span>
-						</div>
-						<div class="line" style="animation-delay: 0.5s">
-							<span class="output">northernhiwisen — a curious builder exploring the digital world.</span>
-						</div>
-
-						<div class="line" style="animation-delay: 0.8s">
-							<span class="prompt">$</span>
-							<span class="command"> cat about.md</span>
-						</div>
-						<div class="line" style="animation-delay: 1.1s">
-							<span class="output">Welcome to my corner of the internet. I built this blog with AI assistants (OpenCode & MiMoCode), a free domain from DigitalPlat, and the Astro framework.</span>
-						</div>
-
-						<div class="line" style="animation-delay: 1.4s">
-							<span class="prompt">$</span>
-							<span class="command"> ls nav/</span>
-						</div>
-						<div class="line" style="animation-delay: 1.7s">
-							<span class="output">
-								<div class="nav-grid">
-									<a href="/blog">./blog</a>
-									<a href="/about">./about</a>
-									<a href="/rss.xml">./rss</a>
-								</div>
-							</span>
-						</div>
-
-						<div class="line" style="animation-delay: 2.0s">
-							<span class="prompt">$</span>
-							<span class="command"> echo $STATUS</span>
-						</div>
-						<div class="line" style="animation-delay: 2.3s">
-							<span class="output">Building in progress... <span class="cursor"></span></span>
-						</div>
+					<div class="card">
+						<h3 class="card-title">音乐与音墙</h3>
+						<ul class="card-topics">
+							<li>DAW 多轨编曲</li>
+							<li>MIDI 机制与声学</li>
+						</ul>
+					</div>
+					<div class="card">
+						<h3 class="card-title">文本与格律</h3>
+						<ul class="card-topics">
+							<li>硬派侦探小说</li>
+							<li>古诗词平仄格律</li>
+						</ul>
 					</div>
 				</div>
-			</div>
+			</section>
+
+			<hr class="divider" />
+
+			<!-- Section 3: Recent Notes & Projects -->
+			<section class="section">
+				<div class="section-header">
+					<div class="section-label">// SECTION 03</div>
+					<h2 class="section-title">Recent Notes & Projects / 近期产出</h2>
+				</div>
+
+				<ul class="recent-list">
+					<li class="recent-item">
+						<span class="recent-tag">[文章]</span>
+						<span class="recent-title"><a href="/blog/my-first-post">我的建站之旅：从免费域名到 AI 助攻</a></span>
+						<span class="recent-date">2026.08</span>
+					</li>
+					<li class="recent-item">
+						<span class="recent-tag">[音轨]</span>
+						<span class="recent-title">MIDI 多轨堆叠与音墙实验 (Waveform 13)</span>
+						<span class="recent-date">2026.06</span>
+					</li>
+					<li class="recent-item">
+						<span class="recent-tag">[笔记]</span>
+						<span class="recent-title">侦探小说词汇结构与文本张力</span>
+						<span class="recent-date">2026.05</span>
+					</li>
+				</ul>
+			</section>
+
+			<!-- Footer -->
+			<footer class="footer">
+				<p class="footer-quote">"复杂性不是终点，而是探索的起点。"</p>
+				<p class="footer-copy">&copy; 2026 Northernhiwisen. Powered by Curiosity.</p>
+			</footer>
 		</main>
 
 		<script>
