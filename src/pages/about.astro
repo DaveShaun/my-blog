@@ -26,112 +26,155 @@ const asciiPortrait = `
 		<style>
 			main {
 				width: 100%;
-				max-width: 800px;
+				max-width: 900px;
 				margin: auto;
-				padding: 1em;
+				padding: 0 1.5em;
 			}
 
-			.about-container {
-				border: 1px solid rgba(0, 255, 65, 0.15);
-				border-radius: 4px;
-				padding: 2em;
-				background: rgba(0, 255, 65, 0.02);
+			.section {
+				padding: 3em 0;
+				border-top: 1px solid rgba(0, 255, 65, 0.1);
+			}
+
+			.section:first-child {
+				border-top: none;
+			}
+
+			.section-header {
+				margin-bottom: 2em;
+			}
+
+			.section-label {
+				font-size: 0.8em;
+				color: var(--green-dim);
+				text-transform: uppercase;
+				letter-spacing: 3px;
+				margin-bottom: 0.5em;
+			}
+
+			.section-title {
+				font-size: 1.6em;
+				color: var(--green);
+				text-shadow: 0 0 8px var(--green-glow);
+				margin: 0;
 			}
 
 			.about-header {
 				text-align: center;
-				margin-bottom: 2em;
-			}
-
-			.section {
-				margin-bottom: 2em;
-			}
-
-			.section-title {
-				color: var(--green);
-				border-bottom: 1px solid rgba(0, 255, 65, 0.2);
-				padding-bottom: 0.3em;
 				margin-bottom: 1em;
 			}
 
 			.info-grid {
 				display: grid;
-				grid-template-columns: 120px 1fr;
-				gap: 0.5em 1em;
+				grid-template-columns: 140px 1fr;
+				gap: 0.6em 1em;
 			}
 
 			.info-label {
 				color: var(--green-dim);
 			}
 
+			.info-label::before {
+				content: '> ';
+				color: rgba(0, 255, 65, 0.4);
+			}
+
 			.info-value {
+				color: var(--green);
+			}
+
+			.info-value a {
 				color: var(--green);
 			}
 
 			.skills-list {
 				display: flex;
 				flex-wrap: wrap;
-				gap: 8px;
+				gap: 10px;
 			}
 
 			.skill-tag {
-				padding: 3px 10px;
+				padding: 5px 14px;
 				border: 1px solid rgba(0, 255, 65, 0.3);
 				border-radius: 3px;
-				font-size: 0.85em;
+				font-size: 0.9em;
 				color: var(--green);
+				transition: all 0.2s;
 			}
 
-			@media (max-width: 600px) {
-				.about-container {
-					padding: 1em;
-				}
+			.skill-tag:hover {
+				background: rgba(0, 255, 65, 0.1);
+				border-color: var(--green);
+				box-shadow: 0 0 10px rgba(0, 255, 65, 0.2);
+			}
+
+			.story-text {
+				color: var(--green-dim);
+				line-height: 1.9;
+			}
+
+			.story-text p {
+				margin-bottom: 1em;
+			}
+
+			@media (max-width: 700px) {
 				.info-grid {
 					grid-template-columns: 1fr;
-					gap: 0.2em;
+					gap: 0.3em;
 				}
 			}
 		</style>
 	</head>
 	<body>
-		<Header />
+		<canvas id="matrix-canvas"></canvas>
+
 		<main>
-			<div class="about-container">
+			<!-- Section: Identity -->
+			<section class="section">
 				<div class="about-header">
 					<pre class="ascii-art">{asciiPortrait}</pre>
-					<span class="prompt">cat ~/.identity</span>
 				</div>
-
-				<div class="section">
-					<h3 class="section-title">&gt; whoami</h3>
-					<div class="info-grid">
-						<span class="info-label">name:</span>
-						<span class="info-value">northernhiwisen</span>
-						<span class="info-label">location:</span>
-						<span class="info-value">The Wired</span>
-						<span class="info-label">status:</span>
-						<span class="info-value">Building in the Matrix</span>
-						<span class="info-label">interests:</span>
-						<span class="info-value">Web, AI, Open Source, Tinkering</span>
-					</div>
+				<div class="section-header">
+					<div class="section-label">// SECTION 01</div>
+					<h2 class="section-title">Identity / 身份</h2>
 				</div>
-
-				<div class="section">
-					<h3 class="section-title">&gt; cat ~/.stack</h3>
-					<div class="skills-list">
-						<span class="skill-tag">Astro</span>
-						<span class="skill-tag">TypeScript</span>
-						<span class="skill-tag">React</span>
-						<span class="skill-tag">Node.js</span>
-						<span class="skill-tag">Cloudflare</span>
-						<span class="skill-tag">GitHub Pages</span>
-						<span class="skill-tag">AI Tools</span>
-						<span class="skill-tag">Linux</span>
-					</div>
+				<div class="info-grid">
+					<span class="info-label">name</span>
+					<span class="info-value">northernhiwisen</span>
+					<span class="info-label">location</span>
+					<span class="info-value">The Wired</span>
+					<span class="info-label">status</span>
+					<span class="info-value">Building in the Matrix</span>
+					<span class="info-label">interests</span>
+					<span class="info-value">Web, AI, Open Source, Tinkering</span>
 				</div>
+			</section>
 
-				<div class="section">
-					<h3 class="section-title">&gt; cat ~/.story</h3>
+			<!-- Section: Stack -->
+			<section class="section">
+				<div class="section-header">
+					<div class="section-label">// SECTION 02</div>
+					<h2 class="section-title">Stack / 技术栈</h2>
+				</div>
+				<div class="skills-list">
+					<span class="skill-tag">Astro</span>
+					<span class="skill-tag">TypeScript</span>
+					<span class="skill-tag">React</span>
+					<span class="skill-tag">Node.js</span>
+					<span class="skill-tag">Cloudflare</span>
+					<span class="skill-tag">GitHub Pages</span>
+					<span class="skill-tag">AI Tools</span>
+					<span class="skill-tag">Linux</span>
+				</div>
+			</section>
+
+			<!-- Section: Story -->
+			<section class="section">
+				<div class="section-header">
+					<div class="section-label">// SECTION 03</div>
+					<h2 class="section-title">Story / 故事</h2>
+				</div>
+				<div class="story-text">
 					<p>
 						A curious builder who started this blog with the help of AI assistants
 						(OpenCode & MiMoCode), a free domain from DigitalPlat, and the Astro framework.
@@ -142,20 +185,65 @@ const asciiPortrait = `
 						share discoveries, and connect with fellow travelers in the Wired.
 					</p>
 				</div>
+			</section>
 
-				<div class="section">
-					<h3 class="section-title">&gt; ls ~/.links</h3>
-					<div class="info-grid">
-						<span class="info-label">github:</span>
-						<span class="info-value"><a href="https://github.com/DaveShaun" target="_blank">github.com/DaveShaun</a></span>
-						<span class="info-label">blog:</span>
-						<span class="info-value">northernhiwisen.dpdns.org</span>
-						<span class="info-label">rss:</span>
-						<span class="info-value"><a href="/rss.xml">/rss.xml</a></span>
-					</div>
+			<!-- Section: Links -->
+			<section class="section">
+				<div class="section-header">
+					<div class="section-label">// SECTION 04</div>
+					<h2 class="section-title">Links / 链接</h2>
 				</div>
-			</div>
+				<div class="info-grid">
+					<span class="info-label">github</span>
+					<span class="info-value"><a href="https://github.com/DaveShaun" target="_blank">github.com/DaveShaun</a></span>
+					<span class="info-label">blog</span>
+					<span class="info-value">northernhiwisen.dpdns.org</span>
+					<span class="info-label">rss</span>
+					<span class="info-value"><a href="/rss.xml">/rss.xml</a></span>
+				</div>
+			</section>
 		</main>
-		Footer />
+
+		<Footer />
+
+		<script>
+			// Matrix digital rain effect
+			const canvas = document.getElementById('matrix-canvas');
+			const ctx = canvas.getContext('2d');
+
+			let width = canvas.width = window.innerWidth;
+			let height = canvas.height = window.innerHeight;
+
+			const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEF';
+			const charArray = chars.split('');
+			const fontSize = 14;
+			const columns = Math.floor(width / fontSize);
+			const drops = Array(columns).fill(1);
+
+			window.addEventListener('resize', () => {
+				width = canvas.width = window.innerWidth;
+				height = canvas.height = window.innerHeight;
+			});
+
+			function draw() {
+				ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+				ctx.fillRect(0, 0, width, height);
+
+				ctx.fillStyle = '#0f0';
+				ctx.font = fontSize + 'px monospace';
+
+				for (let i = 0; i < drops.length; i++) {
+					const text = charArray[Math.floor(Math.random() * charArray.length)];
+					ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+					if (drops[i] * fontSize > height && Math.random() > 0.975) {
+						drops[i] = 0;
+					}
+					drops[i]++;
+				}
+			}
+
+			setInterval(draw, 33);
+		</script>
 	</body>
 </html>

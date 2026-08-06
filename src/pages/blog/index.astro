@@ -11,13 +11,14 @@ const posts = (await getCollection('blog')).sort(
 );
 
 const asciiHeader = `
- ╔═══════════════════════════════════════╗
- ║   __  __ _      __  __                ║
- ║  |  \\/  (_)___ |  \\/  |___  ___       ║
- ║  | |\\/| | / __|| |\\/| / __|/ _ \\      ║
- ║  | |  | | \\__ \\| |  | \\__ \\ (_) |     ║
- ║  |_|  |_|_|___/|_|  |_|___/\\___/      ║
- ╚═══════════════════════════════════════╝`;
+ ╔═══════════════════════════════════════════════════════╗
+ ║   ███╗  ███╗ █████╗ ████████╗██████╗ ██╗██╗  ██╗    ║
+ ║   ████╗████║██╔══██╗╚══██╔══╝██╔══██╗██║╚██╗██╔╝    ║
+ ║   ██╔████╔██║███████║   ██║   ██████╔╝██║ ╚███╔╝     ║
+ ║   ██║╚██╔╝██║██╔══██║   ██║   ██╔══██╗██║ ██╔██╗     ║
+ ║   ██║ ╚═╝ ██║██║  ██║   ██║   ██║  ██║██║██╔╝ ██╗    ║
+ ║   ╚═╝     ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝    ║
+ ╚═══════════════════════════════════════════════════════╝`;
 ---
 
 <!doctype html>
@@ -27,14 +28,37 @@ const asciiHeader = `
 		<style>
 			main {
 				width: 100%;
-				max-width: 800px;
+				max-width: 900px;
 				margin: auto;
-				padding: 1em;
+				padding: 0 1.5em;
 			}
 
-			.page-header {
-				text-align: center;
+			.section {
+				padding: 3em 0;
+				border-top: 1px solid rgba(0, 255, 65, 0.1);
+			}
+
+			.section:first-child {
+				border-top: none;
+			}
+
+			.section-header {
 				margin-bottom: 2em;
+			}
+
+			.section-label {
+				font-size: 0.8em;
+				color: var(--green-dim);
+				text-transform: uppercase;
+				letter-spacing: 3px;
+				margin-bottom: 0.5em;
+			}
+
+			.section-title {
+				font-size: 1.6em;
+				color: var(--green);
+				text-shadow: 0 0 8px var(--green-glow);
+				margin: 0;
 			}
 
 			.posts-list {
@@ -46,16 +70,17 @@ const asciiHeader = `
 			.post-item {
 				border: 1px solid rgba(0, 255, 65, 0.15);
 				border-radius: 4px;
-				margin-bottom: 1em;
-				padding: 1.2em 1.5em;
+				margin-bottom: 1.2em;
+				padding: 1.5em 1.8em;
 				transition: all 0.2s;
 				background: rgba(0, 255, 65, 0.02);
 			}
 
 			.post-item:hover {
-				border-color: rgba(0, 255, 65, 0.4);
+				border-color: var(--green);
 				background: rgba(0, 255, 65, 0.05);
-				box-shadow: 0 0 15px rgba(0, 255, 65, 0.1);
+				box-shadow: 0 0 15px rgba(0, 255, 65, 0.15);
+				transform: translateY(-2px);
 			}
 
 			.post-item a {
@@ -65,7 +90,7 @@ const asciiHeader = `
 
 			.post-item .title {
 				font-size: 1.2em;
-				margin: 0 0 0.3em 0;
+				margin: 0 0 0.4em 0;
 				color: var(--green);
 				text-shadow: 0 0 6px var(--green-glow);
 			}
@@ -74,19 +99,27 @@ const asciiHeader = `
 				color: var(--green-dim);
 				font-size: 0.9em;
 				margin: 0.5em 0;
+				line-height: 1.7;
 			}
 
 			.post-item .meta {
 				font-size: 0.8em;
 				color: rgba(0, 255, 65, 0.5);
+				display: flex;
+				align-items: center;
+				gap: 1em;
 			}
 
 			.post-item .meta .tag {
 				display: inline-block;
-				padding: 1px 6px;
+				padding: 2px 8px;
 				border: 1px solid rgba(0, 255, 65, 0.2);
 				border-radius: 3px;
-				margin-right: 8px;
+				font-size: 0.9em;
+			}
+
+			.post-item .meta .path {
+				font-style: italic;
 			}
 
 			.empty-state {
@@ -94,17 +127,25 @@ const asciiHeader = `
 				padding: 3em;
 				color: var(--green-dim);
 			}
+
+			@media (max-width: 700px) {
+				.post-item {
+					padding: 1.2em;
+				}
+			}
 		</style>
 	</head>
 	<body>
-		<Header />
-		<main>
-			<div class="page-header">
-				<pre class="ascii-art">{asciiHeader}</pre>
-			</div>
+		<canvas id="matrix-canvas"></canvas>
 
-			<section>
-				<span class="prompt">ls -la ./posts/</span>
+		<main>
+			<!-- Section: Notes -->
+			<section class="section">
+				<div class="section-header">
+					<div class="section-label">// SECTION 01</div>
+					<h2 class="section-title">Notes & Writings / 笔记与文章</h2>
+				</div>
+
 				<ul class="posts-list">
 					{posts.length === 0 ? (
 						<li class="empty-state">
@@ -119,7 +160,7 @@ const asciiHeader = `
 									<p class="excerpt">{post.data.description}</p>
 									<div class="meta">
 										<span class="tag"><FormattedDate date={post.data.pubDate} /></span>
-										<span>~/blog/{post.id}</span>
+										<span class="path">~/blog/{post.id}</span>
 									</div>
 								</a>
 							</li>
@@ -128,6 +169,47 @@ const asciiHeader = `
 				</ul>
 			</section>
 		</main>
+
 		<Footer />
+
+		<script>
+			// Matrix digital rain effect
+			const canvas = document.getElementById('matrix-canvas');
+			const ctx = canvas.getContext('2d');
+
+			let width = canvas.width = window.innerWidth;
+			let height = canvas.height = window.innerHeight;
+
+			const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEF';
+			const charArray = chars.split('');
+			const fontSize = 14;
+			const columns = Math.floor(width / fontSize);
+			const drops = Array(columns).fill(1);
+
+			window.addEventListener('resize', () => {
+				width = canvas.width = window.innerWidth;
+				height = canvas.height = window.innerHeight;
+			});
+
+			function draw() {
+				ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+				ctx.fillRect(0, 0, width, height);
+
+				ctx.fillStyle = '#0f0';
+				ctx.font = fontSize + 'px monospace';
+
+				for (let i = 0; i < drops.length; i++) {
+					const text = charArray[Math.floor(Math.random() * charArray.length)];
+					ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+					if (drops[i] * fontSize > height && Math.random() > 0.975) {
+						drops[i] = 0;
+					}
+					drops[i]++;
+				}
+			}
+
+			setInterval(draw, 33);
+		</script>
 	</body>
 </html>
