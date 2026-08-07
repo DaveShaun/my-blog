@@ -251,7 +251,7 @@ const { title, description, pubDate, updatedDate } = Astro.props;
 			const ctx = canvas.getContext('2d');
 
 			let width = canvas.width = window.innerWidth;
-			let height = canvas.height = window.innerHeight;
+			let height = canvas.height = Math.floor(window.innerHeight * 0.5);
 
 			const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEF';
 			const charArray = chars.split('');
@@ -261,7 +261,7 @@ const { title, description, pubDate, updatedDate } = Astro.props;
 
 			window.addEventListener('resize', () => {
 				width = canvas.width = window.innerWidth;
-				height = canvas.height = window.innerHeight;
+				height = canvas.height = Math.floor(window.innerHeight * 0.5);
 			});
 
 			function draw() {

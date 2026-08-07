@@ -223,7 +223,7 @@ const posts = (await getCollection('blog')).sort(
 			const ctx = canvas.getContext('2d');
 
 			let width = canvas.width = window.innerWidth;
-			let height = canvas.height = window.innerHeight;
+			let height = canvas.height = Math.floor(window.innerHeight * 0.5);
 
 			const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEF';
 			const charArray = chars.split('');
@@ -233,7 +233,7 @@ const posts = (await getCollection('blog')).sort(
 
 			window.addEventListener('resize', () => {
 				width = canvas.width = window.innerWidth;
-				height = canvas.height = window.innerHeight;
+				height = canvas.height = Math.floor(window.innerHeight * 0.5);
 			});
 
 			function draw() {
