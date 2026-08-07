@@ -33,7 +33,7 @@ Posts in `src/content/novel/` as `.md` or `.mdx`. Schema: `title`, `description`
 
 - **Slug = filename** (no extension). `first-post.md` → `/blog/first-post/`
 - Posts sorted by `pubDate` descending
-- **Password = UTC date** (`YYYYMMDD`), shown as `pwd-hint` on each post. The `PASSWORD_HASH` constant in novel pages is a placeholder — auth compares the input against today's UTC date.
+- **Password = UTC date** (`YYYYMMDD`). The `PASSWORD_HASH` constant in novel pages is a placeholder — auth compares the input against today's UTC date.
 
 ### Encryption workflow
 1. Run `node scripts/encrypt-novel.mjs "password"` — generates SHA-256 hash and AES-GCM ciphertext
