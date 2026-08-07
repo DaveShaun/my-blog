@@ -190,6 +190,13 @@ const PASSWORD_HASH = 'PLACEHOLDER_HASH';
 				text-shadow: 0 0 6px var(--green-glow);
 			}
 
+			.novel-item .pwd-hint {
+				font-size: 0.7em;
+				color: var(--green-dim);
+				text-shadow: none;
+				opacity: 0.7;
+			}
+
 			.novel-item .excerpt {
 				color: var(--green-dim);
 				font-size: 0.9em;
@@ -272,17 +279,20 @@ const PASSWORD_HASH = 'PLACEHOLDER_HASH';
 							<p>No novels found. Directory is empty.</p>
 						</li>
 					) : (
-						novels.map((novel) => (
-							<li class="novel-item">
-								<a href={`/novel/${novel.id}/`}>
-									<h3 class="title">{novel.data.title}</h3>
-									<p class="excerpt">{novel.data.description}</p>
-									<div class="meta">
-										<span class="path">~/novel/{novel.id}</span>
-									</div>
-								</a>
-							</li>
-						))
+						novels.map((novel) => {
+							const pwd = novel.data.pubDate.toISOString().slice(0, 10).replace(/-/g, '');
+							return (
+								<li class="novel-item">
+									<a href={`/novel/${novel.id}/`}>
+										<h3 class="title">{novel.data.title} <span class="pwd-hint">({pwd})</span></h3>
+										<p class="excerpt">{novel.data.description}</p>
+										<div class="meta">
+											<span class="path">~/novel/{novel.id}</span>
+										</div>
+									</a>
+								</li>
+							);
+						})
 					)}
 				</ul>
 			</section>
