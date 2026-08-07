@@ -29,8 +29,8 @@ const PASSWORD_HASH = 'PLACEHOLDER_HASH';
 		<BaseHead title={title} description={description} />
 		<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-		<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/marked-katex-extension@5.0.1/dist/index.umd.js"></script>
+		<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+		<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 		<style>
 			main { width: 100%; max-width: 900px; margin: auto; padding: 0 1.5em; }
 			.top-bar { display: flex; justify-content: space-between; align-items: center; padding: 1.5em 0; border-bottom: 1px solid rgba(0,255,65,0.2); margin-bottom: 2em; }
@@ -165,8 +165,15 @@ const PASSWORD_HASH = 'PLACEHOLDER_HASH';
 					const ciphertextData = combined.slice(12);
 					const plaintext = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, ciphertextData);
 					const mdText = new TextDecoder().decode(plaintext);
-					marked.use(markedKatex({ throwOnError: false }));
 					decryptedContent.innerHTML = marked.parse(mdText);
+					if (window.renderMathInElement) {
+						renderMathInElement(decryptedContent, {
+							delimiters: [
+								{left: '$$', right: '$$', display: true},
+								{left: '$', right: '$', display: false}
+							]
+						});
+					}
 					encryptedDisplay.style.display = 'none';
 					decryptBtn.style.display = 'none';
 				} catch {
