@@ -1,20 +1,30 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
-import FormattedDate from '../../components/FormattedDate.astro';
 import Header from '../../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
 
-const posts = (await getCollection('blog')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
+const novels = [
+	{
+		id: 'waveform-13',
+		title: 'MIDI 多轨堆叠与音墙实验 (Waveform 13)',
+		description: '探索数字音频工作站中的多轨编曲技术，以及如何通过 MIDI 机制构建声墙。',
+		date: '2026.06',
+		tag: '音轨',
+	},
+	{
+		id: 'detective-vocab',
+		title: '侦探小说词汇结构与文本张力',
+		description: '分析硬派侦探小说中的词汇选择如何构建叙事张力和氛围。',
+		date: '2026.05',
+		tag: '笔记',
+	},
+];
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<BaseHead title="Novel & Creative Writing" description="小说与创意写作 — 探索音乐编曲、硬核叙事与格律美学。" />
 		<style>
 			main {
 				width: 100%;
@@ -67,6 +77,7 @@ const posts = (await getCollection('blog')).sort(
 				box-shadow: 0 0 10px rgba(0, 255, 65, 0.2);
 			}
 
+			/* Section */
 			.section {
 				padding: 3em 0;
 				border-top: 1px solid rgba(0, 255, 65, 0.1);
@@ -95,13 +106,14 @@ const posts = (await getCollection('blog')).sort(
 				margin: 0;
 			}
 
-			.posts-list {
+			/* Novel List */
+			.novels-list {
 				list-style: none;
 				padding: 0;
 				margin: 0;
 			}
 
-			.post-item {
+			.novel-item {
 				border: 1px solid rgba(0, 255, 65, 0.15);
 				border-radius: 4px;
 				margin-bottom: 1.2em;
@@ -110,33 +122,33 @@ const posts = (await getCollection('blog')).sort(
 				background: rgba(0, 255, 65, 0.02);
 			}
 
-			.post-item:hover {
+			.novel-item:hover {
 				border-color: var(--green);
 				background: rgba(0, 255, 65, 0.05);
 				box-shadow: 0 0 15px rgba(0, 255, 65, 0.15);
 				transform: translateY(-2px);
 			}
 
-			.post-item a {
+			.novel-item a {
 				text-decoration: none;
 				display: block;
 			}
 
-			.post-item .title {
+			.novel-item .title {
 				font-size: 1.2em;
 				margin: 0 0 0.4em 0;
 				color: var(--green);
 				text-shadow: 0 0 6px var(--green-glow);
 			}
 
-			.post-item .excerpt {
+			.novel-item .excerpt {
 				color: var(--green-dim);
 				font-size: 0.9em;
 				margin: 0.5em 0;
 				line-height: 1.7;
 			}
 
-			.post-item .meta {
+			.novel-item .meta {
 				font-size: 0.8em;
 				color: rgba(0, 255, 65, 0.5);
 				display: flex;
@@ -144,7 +156,7 @@ const posts = (await getCollection('blog')).sort(
 				gap: 1em;
 			}
 
-			.post-item .meta .tag {
+			.novel-item .meta .tag {
 				display: inline-block;
 				padding: 2px 8px;
 				border: 1px solid rgba(0, 255, 65, 0.2);
@@ -152,7 +164,7 @@ const posts = (await getCollection('blog')).sort(
 				font-size: 0.9em;
 			}
 
-			.post-item .meta .path {
+			.novel-item .meta .path {
 				font-style: italic;
 			}
 
@@ -163,7 +175,7 @@ const posts = (await getCollection('blog')).sort(
 			}
 
 			@media (max-width: 700px) {
-				.post-item {
+				.novel-item {
 					padding: 1.2em;
 				}
 			}
@@ -177,35 +189,36 @@ const posts = (await getCollection('blog')).sort(
 			<span class="site-name">Northernhiwisen</span>
 			<div class="top-nav">
 				<a href="/">Homepage</a>
-				<a href="/blog" class="active">Blog</a>
-				<a href="/novel">Novel</a>
+				<a href="/blog">Blog</a>
+				<a href="/novel" class="active">Novel</a>
 				<a href="/about">About</a>
 			</div>
 		</nav>
 
 		<main>
-			<!-- Section: Notes -->
+			<!-- Section: Novels -->
 			<section class="section">
 				<div class="section-header">
 					<div class="section-label">// SECTION 01</div>
-					<h2 class="section-title">Notes & Writings / 笔记与文章</h2>
+					<h2 class="section-title">Novel & Creative Writing / 小说与创意写作</h2>
 				</div>
 
-				<ul class="posts-list">
-					{posts.length === 0 ? (
+				<ul class="novels-list">
+					{novels.length === 0 ? (
 						<li class="empty-state">
-							<span class="prompt">cat: ./posts/*</span>
-							<p>No posts found. Directory is empty.</p>
+							<span class="prompt">cat: ./novels/*</span>
+							<p>No novels found. Directory is empty.</p>
 						</li>
 					) : (
-						posts.map((post) => (
-							<li class="post-item">
-								<a href={`/blog/${post.id}/`}>
-									<h3 class="title">{post.data.title}</h3>
-									<p class="excerpt">{post.data.description}</p>
+						novels.map((novel) => (
+							<li class="novel-item">
+								<a href={`/novel/${novel.id}/`}>
+									<h3 class="title">{novel.title}</h3>
+									<p class="excerpt">{novel.description}</p>
 									<div class="meta">
-										<span class="tag"><FormattedDate date={post.data.pubDate} /></span>
-										<span class="path">~/blog/{post.id}</span>
+										<span class="tag">[{novel.tag}]</span>
+										<span>{novel.date}</span>
+										<span class="path">~/novel/{novel.id}</span>
 									</div>
 								</a>
 							</li>
