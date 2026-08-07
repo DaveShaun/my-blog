@@ -363,7 +363,7 @@ const novelPosts = (await getCollection('novel'))
 		</style>
 	</head>
 	<body>
-		<canvas id="matrix-canvas" style="position:fixed;top:0;left:0;width:100%;height:50vh;z-index:0;opacity:0.15;pointer-events:none;"></canvas>
+		<canvas id="matrix-canvas" style="position:fixed;top:0;left:0;width:100%;height:66vh;z-index:0;opacity:0.3;pointer-events:none;"></canvas>
 
 		<main>
 			<!-- Navigation -->
@@ -529,17 +529,17 @@ const novelPosts = (await getCollection('novel'))
 			const ctx = canvas.getContext('2d');
 
 			let width = canvas.width = window.innerWidth;
-			let height = canvas.height = Math.floor(window.innerHeight * 0.5);
+			let height = canvas.height = Math.floor(window.innerHeight * 0.66);
 
 			const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEF';
 			const charArray = chars.split('');
-			const fontSize = 14;
+			const fontSize = 18;
 			const columns = Math.floor(width / fontSize);
 			const drops = Array(columns).fill(1);
 
 			window.addEventListener('resize', () => {
 				width = canvas.width = window.innerWidth;
-				height = canvas.height = Math.floor(window.innerHeight * 0.5);
+				height = canvas.height = Math.floor(window.innerHeight * 0.66);
 			});
 
 			function draw() {
