@@ -1,9 +1,14 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
-import Header from '../../components/Header.astro';
 
-const novels = [];
+const novels = (await getCollection('novel')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+
+// Password hash placeholder - replace with actual hash after setting password
+const PASSWORD_HASH = 'PLACEHOLDER_HASH';
 ---
 
 <!doctype html>
@@ -16,6 +21,72 @@ const novels = [];
 				max-width: 900px;
 				margin: auto;
 				padding: 0 1.5em;
+			}
+
+			/* Password Gate */
+			.password-gate {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background: rgba(0, 0, 0, 0.95);
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				z-index: 1000;
+				flex-direction: column;
+				gap: 1.5em;
+			}
+
+			.password-gate h2 {
+				color: var(--green);
+				text-shadow: 0 0 8px var(--green-glow);
+			}
+
+			.password-gate .password-form {
+				display: flex;
+				flex-direction: column;
+				gap: 1em;
+				align-items: center;
+			}
+
+			.password-gate input[type="password"] {
+				padding: 12px 16px;
+				background: rgba(0, 255, 65, 0.05);
+				border: 1px solid rgba(0, 255, 65, 0.3);
+				color: var(--green);
+				font-family: var(--font-mono);
+				font-size: 1em;
+				width: 280px;
+				outline: none;
+			}
+
+			.password-gate input[type="password"]:focus {
+				border-color: var(--green);
+				box-shadow: 0 0 12px rgba(0, 255, 65, 0.3);
+			}
+
+			.password-gate button {
+				padding: 10px 24px;
+				background: transparent;
+				border: 1px solid var(--green);
+				color: var(--green);
+				font-family: var(--font-mono);
+				font-size: 0.9em;
+				cursor: pointer;
+				transition: all 0.2s;
+			}
+
+			.password-gate button:hover {
+				background: rgba(0, 255, 65, 0.1);
+				box-shadow: 0 0 12px rgba(0, 255, 65, 0.3);
+			}
+
+			.password-gate .error {
+				color: #ff5f56;
+				font-size: 0.85em;
+				min-height: 1.2em;
 			}
 
 			/* Navigation */
@@ -162,6 +233,16 @@ const novels = [];
 	<body>
 		<canvas id="matrix-canvas" style="position:fixed;top:0;left:0;width:100%;height:50vh;z-index:0;opacity:0.15;pointer-events:none;"></canvas>
 
+		<!-- Password Gate -->
+		<div id="password-gate" class="password-gate">
+			<h2>🔒 Novel 栏目需要密码访问</h2>
+			<div class="password-form">
+				<input type="password" id="password-input" placeholder="输入访问密码..." />
+				<button id="unlock-btn">解锁</button>
+				<p id="error-msg" class="error"></p>
+			</div>
+		</div>
+
 		<!-- Navigation -->
 		<nav class="top-bar">
 			<pre class="site-name ascii-art"> _   _  _  ___  _   _ ___ _   _ ___ _   _  _   _ ___ _   _
@@ -194,11 +275,9 @@ const novels = [];
 						novels.map((novel) => (
 							<li class="novel-item">
 								<a href={`/novel/${novel.id}/`}>
-									<h3 class="title">{novel.title}</h3>
-									<p class="excerpt">{novel.description}</p>
+									<h3 class="title">{novel.data.title}</h3>
+									<p class="excerpt">{novel.data.description}</p>
 									<div class="meta">
-										<span class="tag">[{novel.tag}]</span>
-										<span>{novel.date}</span>
 										<span class="path">~/novel/{novel.id}</span>
 									</div>
 								</a>
@@ -210,6 +289,60 @@ const novels = [];
 		</main>
 
 		<Footer />
+
+		<script>
+			const PASSWORD_HASH = '{PASSWORD_HASH}';
+
+			const gate = document.getElementById('password-gate');
+			const passwordInput = document.getElementById('password-input');
+			const unlockBtn = document.getElementById('unlock-btn');
+			const errorMsg = document.getElementById('error-msg');
+
+			async function hashPassword(password) {
+				const encoder = new TextEncoder();
+				const data = encoder.encode(password);
+				const hash = await crypto.subtle.digest('SHA-256', data);
+				return Array.from(new Uint8Array(hash))
+					.map((b) => b.toString(16).padStart(2, '0'))
+					.join('');
+			}
+
+			function hideGate() {
+				gate.style.display = 'none';
+			}
+
+			function showError(msg) {
+				errorMsg.textContent = msg;
+			}
+
+			// Check if already authenticated
+			if (sessionStorage.getItem('novel_auth') === 'true') {
+				hideGate();
+			}
+
+			unlockBtn.addEventListener('click', async () => {
+				const password = passwordInput.value;
+				if (!password) {
+					showError('请输入密码');
+					return;
+				}
+				const hash = await hashPassword(password);
+				if (hash === PASSWORD_HASH) {
+					sessionStorage.setItem('novel_auth', 'true');
+					hideGate();
+				} else {
+					showError('密码错误，请重试');
+					passwordInput.value = '';
+					passwordInput.focus();
+				}
+			});
+
+			passwordInput.addEventListener('keydown', (e) => {
+				if (e.key === 'Enter') {
+					unlockBtn.click();
+				}
+			});
+		</script>
 
 		<script>
 			// Matrix digital rain effect

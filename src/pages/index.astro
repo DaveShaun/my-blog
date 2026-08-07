@@ -1,6 +1,15 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import { SITE_TITLE } from '../consts';
+
+const blogPosts = (await getCollection('blog'))
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+	.slice(0, 3);
+
+const novelPosts = (await getCollection('novel'))
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+	.slice(0, 3);
 ---
 
 <!doctype html>
@@ -273,6 +282,12 @@ import { SITE_TITLE } from '../consts';
 				white-space: nowrap;
 			}
 
+			.empty-state {
+				text-align: center;
+				padding: 2em;
+				color: var(--green-dim);
+			}
+
 			/* Footer */
 			.footer {
 				text-align: center;
@@ -424,29 +439,55 @@ import { SITE_TITLE } from '../consts';
 
 			<hr class="divider" />
 
-			<!-- Section 3: Recent Notes & Projects -->
+			<!-- Section 3: Latest Blog Posts -->
 			<section class="section">
 				<div class="section-header">
 					<div class="section-label">// SECTION 03</div>
-					<h2 class="section-title">Recent Notes & Projects / 近期产出</h2>
+					<h2 class="section-title">Latest Blog / 最新博客</h2>
 				</div>
 
 				<ul class="recent-list">
-					<li class="recent-item">
-						<span class="recent-tag">[文章]</span>
-						<span class="recent-title"><a href="/blog/my-first-post">我的建站之旅：从免费域名到 AI 助攻</a></span>
-						<span class="recent-date">2026.08</span>
-					</li>
-					<li class="recent-item">
-						<span class="recent-tag">[音轨]</span>
-						<span class="recent-title">MIDI 多轨堆叠与音墙实验 (Waveform 13)</span>
-						<span class="recent-date">2026.06</span>
-					</li>
-					<li class="recent-item">
-						<span class="recent-tag">[笔记]</span>
-						<span class="recent-title">侦探小说词汇结构与文本张力</span>
-						<span class="recent-date">2026.05</span>
-					</li>
+					{blogPosts.length === 0 ? (
+						<li class="empty-state">No blog posts yet.</li>
+					) : (
+						blogPosts.map((post) => {
+							const date = post.data.pubDate.toLocaleDateString('en-us', { year: 'numeric', month: 'short', day: 'numeric' });
+							return (
+								<li class="recent-item">
+									<span class="recent-tag">[文章]</span>
+									<span class="recent-title"><a href={`/blog/${post.id}/`}>{post.data.title}</a></span>
+									<span class="recent-date">{date}</span>
+								</li>
+							);
+						})
+					)}
+				</ul>
+			</section>
+
+			<hr class="divider" />
+
+			<!-- Section 4: Latest Novel Posts -->
+			<section class="section">
+				<div class="section-header">
+					<div class="section-label">// SECTION 04</div>
+					<h2 class="section-title">Latest Novel / 最新小说</h2>
+				</div>
+
+				<ul class="recent-list">
+					{novelPosts.length === 0 ? (
+						<li class="empty-state">No novel posts yet.</li>
+					) : (
+						novelPosts.map((post) => {
+							const date = post.data.pubDate.toLocaleDateString('en-us', { year: 'numeric', month: 'short', day: 'numeric' });
+							return (
+								<li class="recent-item">
+									<span class="recent-tag">[小说]</span>
+									<span class="recent-title"><a href={`/novel/${post.id}/`}>{post.data.title}</a></span>
+									<span class="recent-date">{date}</span>
+								</li>
+							);
+						})
+					)}
 				</ul>
 			</section>
 
