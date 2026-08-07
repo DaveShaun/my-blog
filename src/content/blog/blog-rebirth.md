@@ -1,6 +1,6 @@
 ---
-title: '博客重生：从终端美学到动态密码保护'
-description: '一次完整的博客重构记录——Matrix 终端风格、GitHub Actions 迁移、动态 UTC 密码加密，以及 ASCII 艺术字的正确打开方式。'
+title: '博客重生：从终端美学到加密保护'
+description: '一次完整的博客重构记录——Matrix 终端风格、GitHub Actions 迁移、加密保护机制，以及 ASCII 艺术字的正确打开方式。'
 pubDate: 'Aug 08 2026'
 ---
 
