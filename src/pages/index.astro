@@ -114,38 +114,6 @@ const novelPosts = (await getCollection('novel'))
 				flex-wrap: wrap;
 			}
 
-			.btn {
-				display: inline-block;
-				padding: 10px 24px;
-				border: 1px solid var(--green);
-				text-decoration: none;
-				font-size: 0.9em;
-				transition: all 0.2s;
-				cursor: pointer;
-			}
-
-			.btn-primary {
-				color: #000;
-				background: var(--green);
-				font-weight: bold;
-			}
-
-			.btn-primary:hover {
-				background: #fff;
-				border-color: #fff;
-				box-shadow: 0 0 20px var(--green-glow);
-			}
-
-			.btn-secondary {
-				color: var(--green);
-				background: transparent;
-			}
-
-			.btn-secondary:hover {
-				background: rgba(0, 255, 65, 0.1);
-				box-shadow: 0 0 12px rgba(0, 255, 65, 0.3);
-			}
-
 			/* Section Styles */
 			.section {
 				padding: 3em 0;
@@ -169,84 +137,6 @@ const novelPosts = (await getCollection('novel'))
 				color: var(--green);
 				text-shadow: 0 0 8px var(--green-glow);
 				margin: 0;
-			}
-
-			/* Expertise List */
-			.expertise-item {
-				margin-bottom: 2.5em;
-				padding-left: 1.5em;
-				border-left: 2px solid rgba(0, 255, 65, 0.2);
-			}
-
-			.expertise-item:hover {
-				border-left-color: var(--green);
-			}
-
-			.expertise-number {
-				font-size: 0.8em;
-				color: var(--green-dim);
-				margin-bottom: 0.3em;
-			}
-
-			.expertise-title {
-				font-size: 1.2em;
-				color: var(--green);
-				margin: 0 0 0.5em 0;
-			}
-
-			.expertise-desc {
-				color: var(--green-dim);
-				line-height: 1.8;
-				margin: 0;
-			}
-
-			/* Explore Cards */
-			.card-grid {
-				display: grid;
-				grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-				gap: 1.5em;
-			}
-
-			.card {
-				border: 1px solid rgba(0, 255, 65, 0.2);
-				padding: 1.5em;
-				transition: all 0.2s;
-				background: rgba(0, 255, 65, 0.02);
-			}
-
-			.card:hover {
-				border-color: var(--green);
-				box-shadow: 0 0 15px rgba(0, 255, 65, 0.15);
-				transform: translateY(-2px);
-			}
-
-			.card-title {
-				font-size: 1.1em;
-				color: var(--green);
-				margin: 0 0 0.8em 0;
-				padding-bottom: 0.5em;
-				border-bottom: 1px solid rgba(0, 255, 65, 0.15);
-			}
-
-			.card-topics {
-				list-style: none;
-				padding: 0;
-				margin: 0;
-			}
-
-			.card-topics li {
-				color: var(--green-dim);
-				font-size: 0.9em;
-				padding: 0.3em 0;
-			}
-
-			.card-topics li::before {
-				content: '├─ ';
-				color: rgba(0, 255, 65, 0.4);
-			}
-
-			.card-topics li:last-child::before {
-				content: '└─ ';
 			}
 
 			/* Recent List */
@@ -342,10 +232,6 @@ const novelPosts = (await getCollection('novel'))
 					font-size: 2em;
 				}
 
-				.card-grid {
-					grid-template-columns: 1fr;
-				}
-
 				.recent-item {
 					flex-direction: column;
 					gap: 0.3em;
@@ -387,56 +273,6 @@ const novelPosts = (await getCollection('novel'))
 					<p>嗨，大家好！我是一个专利工程师，最近一直在做有关Agent的项目，所以也用Agent帮我构建了这个博客。</p>
 					<p>我暂时想把这个博客作为记录我使用Agent经历，以及日常文章的展示场所</p>
 				</div>
-				<div class="hero-actions">
-					<a href="#section-expertise" class="btn btn-primary">Explore My Work ↓</a>
-					<a href="mailto:contact@northernhiwisen.dpdns.org" class="btn btn-secondary">Get in Touch</a>
-				</div>
-			</section>
-
-			<hr class="divider" />
-
-			<!-- Section 1: What I Do -->
-			<section class="section" id="section-expertise">
-				<div class="section-header">
-					<div class="section-label">// SECTION 01</div>
-					<h2 class="section-title">What I Do / 专业领域</h2>
-				</div>
-
-				<div class="expertise-item">
-					<div class="expertise-number">01 / Patent & Database Retrieval</div>
-					<h3 class="expertise-title">专利与检索</h3>
-					<p class="expertise-desc">
-						本人从事一线专利工作多年，在汽车、家电和软通领域都有些积累，在售前、专业实务和客户维护方面都有些经验。
-					</p>
-				</div>
-
-				<div class="expertise-item">
-					<div class="expertise-number">02 / Information Architecture & Systems</div>
-					<h3 class="expertise-title">信息架构与系统拆解</h3>
-					<p class="expertise-desc">
-						虽然没有专指从事过专利检索，但是对incopat等检索工具也略有些使用心得。
-					</p>
-				</div>
-			</section>
-
-			<hr class="divider" />
-
-			<!-- Section 2: What I Explore -->
-			<section class="section">
-				<div class="section-header">
-					<div class="section-label">// SECTION 02</div>
-					<h2 class="section-title">What I Explore / 探索与思考</h2>
-				</div>
-
-				<div class="card-grid">
-					<div class="card">
-						<h3 class="card-title">逻辑与系统</h3>
-						<ul class="card-topics">
-							<li>技术哲学</li>
-							<li>系统工程历史</li>
-						</ul>
-					</div>
-				</div>
 			</section>
 
 			<hr class="divider" />
@@ -444,7 +280,7 @@ const novelPosts = (await getCollection('novel'))
 			<!-- Section 3: Latest Blog Posts -->
 			<section class="section">
 				<div class="section-header">
-					<div class="section-label">// SECTION 03</div>
+					<div class="section-label">// SECTION 01</div>
 					<h2 class="section-title">Latest Blog / 最新博客</h2>
 				</div>
 
@@ -471,7 +307,7 @@ const novelPosts = (await getCollection('novel'))
 			<!-- Section 4: Latest Novel Posts -->
 			<section class="section">
 				<div class="section-header">
-					<div class="section-label">// SECTION 04</div>
+					<div class="section-label">// SECTION 02</div>
 					<h2 class="section-title">Latest Novel / 最新小说</h2>
 				</div>
 
