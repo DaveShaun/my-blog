@@ -82,7 +82,7 @@ const PASSWORD_HASH = 'PLACEHOLDER_HASH';
 					<div class="post-meta"><span class="prompt">date:</span> [{formatted}]</div>
 				</div>
 				<div class="prose" id="content-area">
-					<div class="encrypted-display" id="encrypted-display">{ciphertext}</div>
+					<div class="encrypted-display" id="encrypted-display" data-ciphertext={ciphertext}>{ciphertext}</div>
 					<button class="decrypt-btn" id="decrypt-btn">🔓 点击解密内容</button>
 					<div id="decrypted-content"></div>
 				</div>
@@ -96,7 +96,8 @@ const PASSWORD_HASH = 'PLACEHOLDER_HASH';
 		<Footer />
 
 		<script>
-			const ENCRYPTED_CONTENT = '{ciphertext}';
+			const encryptedDisplay = document.getElementById('encrypted-display');
+			const ENCRYPTED_CONTENT = encryptedDisplay.dataset.ciphertext;
 
 			const gate = document.getElementById('password-gate');
 			const passwordInput = document.getElementById('password-input');
@@ -104,7 +105,6 @@ const PASSWORD_HASH = 'PLACEHOLDER_HASH';
 			const errorMsg = document.getElementById('error-msg');
 			const decryptBtn = document.getElementById('decrypt-btn');
 			const decryptedContent = document.getElementById('decrypted-content');
-			const encryptedDisplay = document.getElementById('encrypted-display');
 
 			function getTodayPassword() {
 				return new Date().toISOString().slice(0, 10).replace(/-/g, '');
