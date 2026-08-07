@@ -203,7 +203,7 @@ const novelPosts = (await getCollection('novel'))
 			/* Explore Cards */
 			.card-grid {
 				display: grid;
-				grid-template-columns: repeat(3, 1fr);
+				grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 				gap: 1.5em;
 			}
 
@@ -384,10 +384,8 @@ const novelPosts = (await getCollection('novel'))
 					Incurably curious about systems, logic, and aesthetics.
 				</p>
 				<div class="hero-desc">
-					<p>穿梭于专利数据库与复杂规则之间的信息检索人。</p>
-					<p>左手逻辑：深挖技术哲学、系统工程与底层机制；</p>
-					<p>右手感性：探索音乐编曲、硬核叙事与格律美学。</p>
-					<p>致力于用极度的严谨去拆解复杂，用独立的视角去探索世界。</p>
+					<p>嗨，大家好！我是一个专利工程师，最近一直在做有关Agent的项目，所以也用Agent帮我构建了这个博客。</p>
+					<p>我暂时想把这个博客作为记录我使用Agent经历，以及日常文章的展示场所</p>
 				</div>
 				<div class="hero-actions">
 					<a href="#section-expertise" class="btn btn-primary">Explore My Work ↓</a>
@@ -406,9 +404,9 @@ const novelPosts = (await getCollection('novel'))
 
 				<div class="expertise-item">
 					<div class="expertise-number">01 / Patent & Database Retrieval</div>
-					<h3 class="expertise-title">专利与数据库检索</h3>
+					<h3 class="expertise-title">专利与检索</h3>
 					<p class="expertise-desc">
-						深耕专利系统与文献数据库，擅长复杂检索式构建、现有技术查新与证据链梳理。
+						本人从事一线专利工作多年，在汽车、家电和软通领域都有些积累，在售前、专业实务和客户维护方面都有些经验。
 					</p>
 				</div>
 
@@ -416,7 +414,7 @@ const novelPosts = (await getCollection('novel'))
 					<div class="expertise-number">02 / Information Architecture & Systems</div>
 					<h3 class="expertise-title">信息架构与系统拆解</h3>
 					<p class="expertise-desc">
-						以极度的严谨性梳理规则、数据与机制，从浩瀚的信息海洋中建立秩序。
+						虽然没有专指从事过专利检索，但是对incopat等检索工具也略有些使用心得。
 					</p>
 				</div>
 			</section>
@@ -436,20 +434,6 @@ const novelPosts = (await getCollection('novel'))
 						<ul class="card-topics">
 							<li>技术哲学</li>
 							<li>系统工程历史</li>
-						</ul>
-					</div>
-					<div class="card">
-						<h3 class="card-title">音乐与音墙</h3>
-						<ul class="card-topics">
-							<li>DAW 多轨编曲</li>
-							<li>MIDI 机制与声学</li>
-						</ul>
-					</div>
-					<div class="card">
-						<h3 class="card-title">文本与格律</h3>
-						<ul class="card-topics">
-							<li>硬派侦探小说</li>
-							<li>古诗词平仄格律</li>
 						</ul>
 					</div>
 				</div>
