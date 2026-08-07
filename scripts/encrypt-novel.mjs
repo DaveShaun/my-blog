@@ -53,11 +53,8 @@ async function hashPassword(password) {
 		.join('');
 }
 
-const password = process.argv[2];
-if (!password) {
-	console.error('Usage: node scripts/encrypt-novel.mjs "your-password"');
-	process.exit(1);
-}
+const password = process.argv[2] || new Date().toISOString().slice(0, 10).replace(/-/g, '');
+console.log('Using password (UTC date):', password);
 
 const hash = await hashPassword(password);
 console.log('\n=== Novel Encryption Tool ===\n');

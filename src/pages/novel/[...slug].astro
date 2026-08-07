@@ -101,7 +101,6 @@ const PASSWORD_HASH = 'PLACEHOLDER_HASH';
 		<Footer />
 
 		<script>
-			const PASSWORD_HASH = '{PASSWORD_HASH}';
 			const ENCRYPTED_CONTENT = '{ciphertext}';
 
 			const gate = document.getElementById('password-gate');
@@ -112,11 +111,8 @@ const PASSWORD_HASH = 'PLACEHOLDER_HASH';
 			const decryptedContent = document.getElementById('decrypted-content');
 			const encryptedDisplay = document.getElementById('encrypted-display');
 
-			async function hashPassword(password) {
-				const encoder = new TextEncoder();
-				const data = encoder.encode(password);
-				const hash = await crypto.subtle.digest('SHA-256', data);
-				return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+			function getTodayPassword() {
+				return new Date().toISOString().slice(0, 10).replace(/-/g, '');
 			}
 
 			function hideGate() { gate.style.display = 'none'; }
@@ -124,11 +120,10 @@ const PASSWORD_HASH = 'PLACEHOLDER_HASH';
 
 			if (sessionStorage.getItem('novel_auth') === 'true') { hideGate(); }
 
-			unlockBtn.addEventListener('click', async () => {
+			unlockBtn.addEventListener('click', () => {
 				const password = passwordInput.value;
 				if (!password) { showError('请输入密码'); return; }
-				const hash = await hashPassword(password);
-				if (hash === PASSWORD_HASH) {
+				if (password === getTodayPassword()) {
 					sessionStorage.setItem('novel_auth', 'true');
 					hideGate();
 				} else {
