@@ -74,6 +74,14 @@ const novelPosts = (await getCollection('novel'))
 				letter-spacing: 2px;
 			}
 
+			.hero-ascii {
+				font-size: 10px;
+				line-height: 1.2;
+				margin: 0 0 1.5em 0;
+				text-align: left;
+				overflow-x: auto;
+			}
+
 			.hero-subtitle {
 				font-size: 1.1em;
 				color: var(--green-dim);
@@ -354,10 +362,7 @@ const novelPosts = (await getCollection('novel'))
 		<main>
 			<!-- Navigation -->
 			<nav class="top-bar">
-				<pre class="site-name ascii-art"> _   _  _  ___  _   _ ___ _   _ ___ _   _  _   _ ___ _   _
-| \ | || \| _ \|\  / /|_ _| \| ||_ _| \| || \ | ||_ _| \| |
-|   ||    |  _/ \ V /  | ||    || ||    ||   ||  _/|    |
-|_|\_||_|\_|___|  \_/  |___||_|\_||_|\__||_|\_|___||_|\_|</pre>
+				<span class="site-name">Northernhiwisen</span>
 				<div class="top-nav">
 					<a href="/" class="active">Homepage</a>
 					<a href="/blog">Blog</a>
@@ -368,7 +373,12 @@ const novelPosts = (await getCollection('novel'))
 
 			<!-- Hero Section -->
 			<section class="hero">
-				<h1 class="hero-title">Northernhiwisen</h1>
+				<pre class="ascii-art hero-ascii">███╗   ██╗ ██████╗ ██████╗ ████████╗██╗  ██╗███████╗██████╗ ███╗   ██╗██╗ ██╗██╗███████╗███████╗███╗   ██╗
+████╗  ██║██╔═══██╗██╔══██╗╚══██╔══╝██║  ██║██╔════╝██╔══██╗████╗  ██║██║██╔╝██║██╔════╝██╔════╝████╗  ██║
+██╔██╗ ██║██║   ██║██████╔╝   ██║   ███████║█████╗  ██████╔╝██╔██╗ ██║██║██║ ██║███████╗█████╗  ██╔██╗ ██║
+██║╚██╗██║██║   ██║██╔══██╗   ██║   ██╔══██║██╔══╝  ██╔══██╗██║╚██╗██║██║████╔╝██║╚════██║██╔══╝  ██║╚██╗██║
+██║ ╚████║╚██████╔╝██║  ██║   ██║   ██║  ██║███████╗██║  ██║██║ ╚████║██║╚██╗ ██║███████║███████╗██║ ╚████║
+╚═╝  ╚═══╝ ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝ ╚═╝ ╚═╝╚══════╝╚══════╝╚═╝  ╚═══╝</pre>
 				<p class="hero-subtitle">
 					Incurably curious about systems, logic, and aesthetics.
 				</p>
